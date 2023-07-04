@@ -3,8 +3,9 @@
   Copyright  :  (C) 2012-2016, University of Twente,
                     2016-2017, Myrtle Software Ltd,
                     2017     , Google Inc.,
-                    2021-2022, QBayLogic B.V.
+                    2021-2023, QBayLogic B.V.
                     2022     , Google Inc.
+                    2023,      LumiGuide Fietsdetectie B.V.
   License    :  BSD2 (see the file LICENSE)
   Maintainer :  QBayLogic B.V. <devops@qbaylogic.com>
 
@@ -304,7 +305,7 @@ mkArgument bbName bndr nArg e = do
           return ((N.Literal (Just (Signed 64,64)) (N.NumLit i),hwTy,True),[])
         (C.Literal (Word64Literal i), [],_) ->
           return ((N.Literal (Just (Unsigned 64,64)) (N.NumLit i),hwTy,True),[])
-#if MIN_VERSION_base(4,16,0)
+#if MIN_VERSION_base(4,13,0)
         (C.Literal (Int8Literal i), [],_) ->
           return ((N.Literal (Just (Signed 8,8)) (N.NumLit i),hwTy,True),[])
         (C.Literal (Int16Literal i), [],_) ->
