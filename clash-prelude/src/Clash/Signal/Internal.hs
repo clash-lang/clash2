@@ -157,9 +157,9 @@ module Clash.Signal.Internal
   , testFor
     -- * Type classes
     -- ** 'Eq'-like
-  , (.==.), (./=.)
+  , (.==.), (.==), (==.), (./=.), (./=), (/=.)
     -- ** 'Ord'-like
-  , (.<.), (.<=.), (.>=.), (.>.)
+  , (.<.), (.<), (<.), (.<=.), (.<=), (<=.), (.>=.), (.>=), (>=.), (.>.), (.>), (>.)
     -- ** 'Functor'
   , mapSignal#
     -- ** 'Applicative'
@@ -1611,6 +1611,30 @@ infix 4 .==.
 (.==.) :: (Eq a, Applicative f) => f a -> f a -> f Bool
 (.==.) = liftA2 (==)
 
+infix 4 .==
+-- | The above type is a generalization for:
+--
+-- @
+-- __(.==)__ :: 'Eq' a => 'Clash.Signal.Signal' a -> a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('==') that allows comparing a @'Clash.Signal.Signal' a@ with a
+-- constant @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+(.==) :: (Eq a, Applicative f) => f a -> a -> f Bool
+(.==) a b = fmap (==b) a
+
+infix 4 ==.
+-- | The above type is a generalization for:
+--
+-- @
+-- __(==.)__ :: 'Eq' a => a -> 'Clash.Signal.Signal' a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('==') that allows comparing a @'Clash.Signal.Signal' a@ with a
+-- constant @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+(==.) :: (Eq a, Applicative f) => a -> f a -> f Bool
+(==.) a b = fmap (a==) b
+
 infix 4 ./=.
 -- | The above type is a generalization for:
 --
@@ -1621,6 +1645,31 @@ infix 4 ./=.
 -- It is a version of ('/=') that returns a 'Clash.Signal.Signal' of 'Bool'
 (./=.) :: (Eq a, Applicative f) => f a -> f a -> f Bool
 (./=.) = liftA2 (/=)
+
+infix 4 ./=
+-- | The above type is a generalization for:
+--
+-- @
+-- __(./=)__ :: 'Eq' a => 'Clash.Signal.Signal' a -> a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('/=') that allows comparing a @'Clash.Signal.Signal' a@ with a
+-- constant @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+(./=) :: (Eq a, Applicative f) => f a -> a -> f Bool
+(./=) a b = fmap (/=b) a
+
+infix 4 /=.
+-- | The above type is a generalization for:
+--
+-- @
+-- __(/=.)__ :: 'Eq' a => a -> 'Clash.Signal.Signal' a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('/=') that allows comparing a @'Clash.Signal.Signal' a@ with a
+-- constant @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+
+(/=.) :: (Eq a, Applicative f) => a -> f a -> f Bool
+(/=.) a b = fmap (a /=) b
 
 infix 4 .<.
 -- | The above type is a generalization for:
@@ -1633,6 +1682,30 @@ infix 4 .<.
 (.<.) :: (Ord a, Applicative f) => f a -> f a -> f Bool
 (.<.) = liftA2 (<)
 
+infix 4 <.
+-- | The above type is a generalization for:
+--
+-- @
+-- __(<.)__ :: 'Ord' a => a -> 'Clash.Signal.Signal' a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('<') that allows comparing a @'Clash.Signal.Signal' a@ with a constant
+-- @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+(<.) :: (Ord a, Applicative f) => a -> f a -> f Bool
+(<.) a b = fmap (a<) b
+
+infix 4 .<
+-- | The above type is a generalization for:
+--
+-- @
+-- __(.<)__ :: 'Ord' a => 'Clash.Signal.Signal' a -> a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('<') that allows comparing a @'Clash.Signal.Signal' a@ with a constant
+-- @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+(.<) :: (Ord a, Applicative f) => f a -> a -> f Bool
+(.<) a b = fmap (<b) a
+
 infix 4 .<=.
 -- | The above type is a generalization for:
 --
@@ -1643,6 +1716,30 @@ infix 4 .<=.
 -- It is a version of ('GHC.TypeNats.<=') that returns a 'Clash.Signal.Signal' of 'Bool'
 (.<=.) :: (Ord a, Applicative f) => f a -> f a -> f Bool
 (.<=.) = liftA2 (<=)
+
+infix 4 .<=
+-- | The above type is a generalization for:
+--
+-- @
+-- __(.<=)__ :: 'Ord' a => 'Clash.Signal.Signal' a -> a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('GHC.TypeNats.<=') that allows comparing a @'Clash.Signal.Signal' a@ with a constant
+-- @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+(.<=) :: (Ord a, Applicative f) => f a -> a -> f Bool
+(.<=) a b = fmap (<=b) a
+
+infix 4 <=.
+-- | The above type is a generalization for:
+--
+-- @
+-- __(<=.)__ :: 'Ord' a => a -> 'Clash.Signal.Signal' a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('GHC.TypeNats.<=') that allows comparing a @'Clash.Signal.Signal' a@ with a constant
+-- @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+(<=.) :: (Ord a, Applicative f) => a -> f a -> f Bool
+(<=.) a b = fmap (a<=)b
 
 infix 4 .>.
 -- | The above type is a generalization for:
@@ -1655,6 +1752,30 @@ infix 4 .>.
 (.>.) :: (Ord a, Applicative f) => f a -> f a -> f Bool
 (.>.) = liftA2 (>)
 
+infix 4 .>
+-- | The above type is a generalization for:
+--
+-- @
+-- __(.>)__ :: 'Ord' a => 'Clash.Signal.Signal' a -> a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('>') that allows comparing a @'Clash.Signal.Signal' a@ with a constant
+-- @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+(.>) :: (Ord a, Applicative f) => f a -> a -> f Bool
+(.>) a b = fmap (>b) a
+
+infix 4 >.
+-- | The above type is a generalization for:
+--
+-- @
+-- __(>.)__ :: 'Ord' a => a -> 'Clash.Signal.Signal' a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('>') that allows comparing a @'Clash.Signal.Signal' a@ with a constant
+-- @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+(>.) :: (Ord a, Applicative f) => a -> f a -> f Bool
+(>.) a b = fmap (a>) b
+
 infix 4 .>=.
 -- | The above type is a generalization for:
 --
@@ -1665,6 +1786,30 @@ infix 4 .>=.
 --  It is a version of ('>=') that returns a 'Clash.Signal.Signal' of 'Bool'
 (.>=.) :: (Ord a, Applicative f) => f a -> f a -> f Bool
 (.>=.) = liftA2 (>=)
+
+infix 4 .>=
+-- | The above type is a generalization for:
+--
+-- @
+-- __(.>=)__ :: 'Ord' a => 'Clash.Signal.Signal' a -> a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('>=') that allows comparing a @'Clash.Signal.Signal' a@ with a constant
+-- @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+(.>=) :: (Ord a, Applicative f) => f a -> a -> f Bool
+(.>=) a b = fmap (>=b) a
+
+infix 4 >=.
+-- | The above type is a generalization for:
+--
+-- @
+-- __(>=.)__ :: 'Ord' a => a -> 'Clash.Signal.Signal' a -> 'Clash.Signal.Signal' 'Bool'
+-- @
+--
+-- It is a version of ('>=') that allows comparing a @'Clash.Signal.Signal' a@ with a constant
+-- @a@ and returns a 'Clash.Signal.Signal' of 'Bool'
+(>=.) :: (Ord a, Applicative f) => a -> f a -> f Bool
+(>=.) a b = fmap (a>=) b
 
 instance Fractional a => Fractional (Signal dom a) where
   (/)          = liftA2 (/)
